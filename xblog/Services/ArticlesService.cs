@@ -68,8 +68,8 @@ namespace xblog.Services
 
     public bool AddArcticle(Article article)
     {
-      var newId = _articlesRepository.GetAllArticles().Max(s => s.Id) + 1;
-      var fillArticle = new DbArticle { Id = newId, UserId = article.UserId, ArticleValue = article.ArticleValue, ArticleValueDate = DateTime.Now };
+      var dbNewId = _articlesRepository.GetAllArticles().Max(s => s.Id) + 1;
+      var fillArticle = new DbArticle { Id = dbNewId, UserId = article.UserId, ArticleValue = article.ArticleValue, ArticleValueDate = DateTime.Now };
       var dbArticleAdd = _articlesRepository.InsertArticle(fillArticle);
       return dbArticleAdd;
     }

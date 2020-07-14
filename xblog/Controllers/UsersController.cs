@@ -4,6 +4,7 @@ using xblog.Repositories;
 using xblog.Controllers.Models;
 using xblog.Repositories.Models;
 using xblog.Services;
+using xblog.Services.Models;
 
 namespace xblog.Controllers
 {
@@ -18,7 +19,7 @@ namespace xblog.Controllers
     }
 
     [HttpGet]
-    [Route("GetUserInfo")]
+    [Route("GetUserById")]
     public IActionResult GetUserById(int id)
     {
       var user = _usersService.GetUser(id);
@@ -29,20 +30,20 @@ namespace xblog.Controllers
       return Ok(user);
     }
 
-  //  [HttpPost]
-  //  [Route("AddUser")]
-  //  public IActionResult AddUser(CreateUserRequest model)
-  //  {
-  //    var newId = UsersRepository.UserList.Max(s => s.Id) + 1;
-  //    UsersRepository.UserList.Add(new DbUser { Id = newId, Login = model.Login, Pass = model.Pass, IsEdit = model.IsEdit, FIO = model.FIO });
-  //    return Ok(UsersRepository.UserList);
-  //  }
+    [HttpPost]
+    [Route("AddUser")]
+    public IActionResult AddUser(CreateUserRequest user)
+    {
+      var fillUser = new User { Id = 0, FIO = user.FIO, Login = user.Login, Pass = user.Pass, IsEdit = user.IsEdit };
+      var addUser = _usersService.AddUser(fillUser);
+      return Ok(addUser);
+    }
 
-  //  [HttpGet]
-  //  [Route("GetTempUserInfo")]
-  //  public IActionResult GetTempUserInfo()
-  //  {
-  //    return Ok(UsersRepository.UserList);
-  //  }
+    [HttpGet]
+    [Route("GetUsersInfo")]
+    public IActionResult GetUsersInfo()
+    {
+      return Ok(_usersService.GetUsersList());
+    }
   }
 }

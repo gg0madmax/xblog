@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using xblog.Controllers.Models;
 using xblog.Repositories;
 using xblog.Repositories.Models;
@@ -28,6 +29,14 @@ namespace xblog.Services
       var dbArticle = _articlesRepository.GetArticle(dbComment.ArticleId);
       var comment = new UserComment { UserId = dbUser.Id, FIO = dbUser.FIO, ArticleValue = dbArticle.ArticleValue, CommentId = dbComment.Id, CommentValue = dbComment.CommentValue, CommentValueDate = dbComment.CommentValueDate };
       return comment;
+    }
+
+    public IEnumerable<UserComment> GetCommentByArticleId(int articleId)
+    {
+      var dbArticle = _articlesRepository.GetArticle(articleId);
+      var dbUser = _usersRepository.GetUser(dbArticle.UserId);
+      var dbComments = _commentsRepository.GetAllCommentsByArticleId(articleId).Select(s => new UserComment() { CommentId = s.Id, ArticleValue = dbArticle.ArticleValue, UserId = s.UserId, FIO = dbUser.FIO, CommentValue = s.CommentValue, CommentValueDate = s.CommentValueDate });
+      return dbComments;
     }
 
     public IEnumerable<NComments> GetNComments(int articleId, int commentsCount, int pageNubmer)

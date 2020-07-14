@@ -46,7 +46,7 @@ namespace xblog.Controllers
       return Ok(articleUserList);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("AddArticle")]
     public IActionResult AddArticle(CreateArticleRequest article)
     {
